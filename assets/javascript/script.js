@@ -1,52 +1,85 @@
 var buttonEl = $(".start-button")
 var multipleChoiceList = $(".multiple-choice")
-// var answerButtons = $("button")
+var timerElement = $(".countdown")
 
 // [0] = question, [1] - [length-2] = answers, [length-1] = correct answer
-var question1 = ["Please choose answer c", "a", "b", "c", "d", "c"]
-var answer = question1[question1.length-1]
+var questions = [
+    ["Please choose answer a", "a", "b", "c", "d", "a"],
+    ["Please choose answer b", "a", "b", "c", "d", "b"],
+    ["Please choose answer c", "a", "b", "c", "d", "c"],
+    ["Please choose answer d", "a", "b", "c", "d", "d"],
+]
+var answer;
 
+var timerCount;
+var score;
+var timeTotal = 30;
+var timePenalty = timeTotal/questions.length;
 
-
-function startQuiz(){
+function startQuiz() {
     console.log("button clicked");
     // start the timer
+    timerCount = timeTotal;
+    timerElement.text(timerCount);
+    startTimer();
     // get the first question
     getQuestion()
 }
 
-function getQuestion(){
-    // TO DO randomly select a question
-    $(".question").text(question1[0])
-    console.log("answer is " + answer)
-
-    for (var i = 1; i <question1.length-1; i++){
-        var optionButton =  $("<button>");
-        optionButton.addClass("option-button")
-        optionButton.text(question1[i])
-        multipleChoiceList.append(optionButton)
-        // console.log(answerButtons)
-    }
-    
+function startTimer() {
+    // Sets timer
+    timer = setInterval(function () {
+        // if the player is not out of time, and there are unanswered questions, keep counting down
+        if (timerCount>0 && questions.length){
+        timerCount--;
+        timerElement.text(timerCount);
+        console.log(timerCount)        
+        }else{
+            clearInterval(timer);
+        }
+    }, 1000)
 }
 
-function validateAnswer(event){
-    // console.log(event);
-    // var target = event.target;
-    // console.log(event.target.innerText)
-    if (event.target.innerText === answer){
-    console.log("correct!")
+
+function getQuestion() {
+    if (questions.length > 0) {
+        multipleChoiceList.empty();
+        var randomInt = Math.floor(Math.random()*questions.length);
+        var activeQuestion = questions[randomInt];
+        questions.splice(randomInt,1);
+        answer = activeQuestion[activeQuestion.length-1];
+        $(".question").text(activeQuestion[0]);
+
+        for (var i = 1; i < activeQuestion.length - 1; i++) {
+            var optionButton = $("<button>");
+            optionButton.addClass("option-button")
+            optionButton.text(activeQuestion[i])
+            multipleChoiceList.append(optionButton)
+            // console.log(answerButtons)
+        }
     }else{
-        console.log("incorrect!")
+        score = Math.max(0,timerCount);
+        console.log("score"+score)
+        multipleChoiceList.empty();
     }
-
 }
 
+function validateAnswer(event) {
+    if (event.target.innerText === answer) {
+        $(".answer").text("Correct!")
+    } else {
+        // prevents it from returning decimal amounts of time
+        timerCount = Math.floor(timerCount-timePenalty);
+        if (timerCount >= 0){
+            timerElement.text(timerCount);
+        }else{
+            timerElement.text(0);
+        }
+        $(".answer").text("Incorrect!")
+    }
+    getQuestion();
 
-// Start a timer
-
-// Display a message if you're right or wrong
-
+}
 
 multipleChoiceList.on("click", ".option-button", validateAnswer)
 
