@@ -1,6 +1,9 @@
+var mainEl = $("main")
 var buttonEl = $(".start-button")
 var multipleChoiceList = $(".multiple-choice")
 var timerElement = $(".countdown")
+var bigTextEl = $(".big-text")
+var addlTextEl = $(".addl-text")
 
 // [0] = question, [1] - [length-2] = answers, [length-1] = correct answer
 var questions = [
@@ -13,14 +16,16 @@ var answer;
 
 var timerCount;
 var score;
-var timeTotal = 30;
+var timeTotal = 1;
 var timePenalty = timeTotal/questions.length;
 
 function startQuiz() {
-    console.log("button clicked");
     // start the timer
     timerCount = timeTotal;
     timerElement.text(timerCount);
+    addlTextEl.empty();
+    buttonEl.detach();
+
     startTimer();
     // get the first question
     getQuestion()
@@ -48,20 +53,45 @@ function getQuestion() {
         var activeQuestion = questions[randomInt];
         questions.splice(randomInt,1);
         answer = activeQuestion[activeQuestion.length-1];
-        $(".question").text(activeQuestion[0]);
+        bigTextEl.text(activeQuestion[0]);
 
         for (var i = 1; i < activeQuestion.length - 1; i++) {
             var optionButton = $("<button>");
             optionButton.addClass("option-button")
             optionButton.text(activeQuestion[i])
             multipleChoiceList.append(optionButton)
-            // console.log(answerButtons)
         }
     }else{
         score = Math.max(0,timerCount);
-        console.log("score"+score)
-        multipleChoiceList.empty();
+        console.log("score "+score);
+        logScore();
     }
+}
+function logScore(){
+    bigTextEl.text("Record Your Score!")
+    addlTextEl.text("Your score is: " + score)
+    mainEl.empty();
+    var inputLabel =$("<label>")
+    inputLabel.text("Enter initials: ")
+    inputLabel.attr({
+        for:"initials"
+    })
+    mainEl.append(inputLabel)
+    var initialInput = $("<input>")
+    initialInput.attr({
+        required: true,
+        maxlength: 5,
+        id: "initials"
+    })
+    mainEl.append(initialInput)
+    var submitButton = $("<button>")
+    submitButton.text("Submit")
+    submitButton.attr({
+        type: "submit",
+        name: "submit"
+    })
+    mainEl.append(submitButton)
+
 }
 
 function validateAnswer(event) {
@@ -80,6 +110,13 @@ function validateAnswer(event) {
     getQuestion();
 
 }
+
+function loadHighScores(){
+
+    console.log ("highscores!")
+}
+
+mainEl.on("click", "[name = 'submit']", loadHighScores)
 
 multipleChoiceList.on("click", ".option-button", validateAnswer)
 
