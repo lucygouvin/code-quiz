@@ -168,7 +168,7 @@ function saveScore() {
         // Save updated array to localStorage. Only keep the top 10 scores.
         localStorage.setItem("leaderboard", JSON.stringify(leaderboard.slice(0,10)));
         // Load the leaderboard page
-        window.location.href = "leaderboard.html"
+        window.location.href = "pages/leaderboard.html"
     } else {
         // Empty any previous error message, explain why a blank answer cannot be submitted
         $(".display-area > p").empty()
