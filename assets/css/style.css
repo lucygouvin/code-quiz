@@ -1,9 +1,150 @@
+/* Define values that are used throughout the CSS for ease of adjustment */
+:root{
+    --turqoise-color: #06AED5;
+    --dark-blue-color: #086788;
+    --yellow-color: #F0C808;
+    --beige-color: #FFF1D0;
+    --red-color: #DD1C1A;
+    --big-text: 32px;
+    --normal-text: 20px;
+    --mobile-p-text: 14px;
+    --mobile-h1-text: 24px;
+    --small-gap: 2%
+}
+
+/* Define how text will appear throughout the site by default, and include the numbers inside the box for list items */
+* {
+    font-family: Arial, Helvetica, sans-serif;
+    list-style-position: inside;
+    color: white;
+}
+
+/* Set body color */
+body{
+    /* color: var(--dark-blue-color); */
+    background-color: var(--beige-color);
+}
+
+/* Set header to flex to keep the highscore link and timer on opposite sides from each other */
 header{
     display: flex;
     flex-direction: row;
     justify-content: space-between;
-    padding: 2%;
+    padding: var(--small-gap);
+    background-color: var(--turqoise-color);
 }
 
+/* Big text styling */
+h1{
+    font-size: var(--big-text);
+    margin: var(--small-gap) 0%;
+    /* color: var(--dark-blue-color) */
+}
 
+/* Additional text styling */
+p{
+    font-size: var(--normal-text);
+    line-height: 22px;
+    margin: var(--small-gap) 0%;
+}
 
+/* Don't show underline on links by default */
+a{
+    text-decoration: none;
+}
+
+/* Only show underline on links when hovering */
+a:hover{
+    text-decoration: underline;
+}
+
+/* Center elements by default (this is turned off by JavaScript during the quiz view */
+main{
+    padding: var(--small-gap) 25%;
+    text-align: center;
+    color: var(--dark-blue-color);
+}
+
+/* Override text color for main p */
+main p{
+    
+}
+
+/* Button styling, including multiple choice answers */
+button{
+    display: inline;
+    font-size: var(--normal-text);
+    padding: 1%;
+    margin: var(--small-gap);
+    background-color: var(--turqoise-color);
+    border: 2px solid var(--dark-blue-color);
+    border-radius: 7%;
+    color: white;
+}
+
+/* Multiple choice buttons should each be on their own line, and aligned with the left side of the main element */
+.option-button{
+    display: block;
+    margin-left: 0%;
+}
+
+/* Set font size for label */
+label{
+    font-size: var(--normal-text);
+}
+
+/* Set line height for input, making it slightly larger than the default */
+input{
+    line-height: var(--normal-text);
+}
+
+/* "Initials can't be blank" text should be red to indicate an error, but the answer text should not be. */
+.display-area p:not(.answer){
+    color: var(--red-color);
+    font-style: italic;
+    font-size: 16px;
+}
+
+/* Styling the leaderboard entries */
+li {
+    margin: 1%;
+    font-size: var(--normal-text);
+    font-weight: 900;
+    text-align: left;
+    background-color: rgba(18, 174, 213, 0.2);
+}
+
+/* Styling for mobile */
+@media screen and (max-width: 560px) {
+    /* Elements have to be set individually due to specificity */
+    p{
+        font-size: var(--mobile-p-text);
+        line-height: 18px;
+    }
+
+    h1{
+        font-size: var(--mobile-h1-text);
+        line-height: var(--mobile-h1-text);
+    }
+
+    label{
+        font-size: var(--mobile-p-text);
+    }
+
+    button{
+        font-size: var(--mobile-p-text);
+    }
+
+    input{
+        font-size: var(--mobile-p-text);
+    }
+
+    li{
+        font-size: var(--mobile-p-text);
+    }
+
+    /* Less padding on main, so there's more usable space */
+    main{
+        padding: var(--small-gap) 10%;
+    }
+}
