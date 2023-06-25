@@ -12,7 +12,7 @@ This project was an excercise in editing the DOM via JavaScript, saving to local
 
 ## Installation
 
-The Code Quiz is available here:
+The Code Quiz is available here: [https://lucygouvin.github.io/code-quiz/](https://lucygouvin.github.io/code-quiz/)
 
 ## Usage
 1. Press the Start button to begin the quiz
