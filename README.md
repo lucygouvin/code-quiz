@@ -1,28 +1,22 @@
-# <Your-Project-Title>
+# Code Quiz
 
 ## Description
 
-Provide a short description explaining the what, why, and how of your project. Use the following questions as a guide:
+This project is an interactive multiple choice quiz. The user must answer multiple choice questions relating to coding before the timer runs out. For each incorrect answer, there is a time penalty. The user's final score is equal to the remaining time. The faster you are, the better your score!
 
-- What was your motivation?
-- Why did you build this project? (Note: the answer is not "Because it was a homework assignment.")
-- What problem does it solve?
-- What did you learn?
+After either the timer runs out, or the user has answered all the questions, they have the opportunity to add their initials to be tracked on the leaderboard. Their initials are saved along with their score to local storage. 
 
-## Table of Contents (Optional)
+After adding their initials, the user is taken to the leaderboard page, which shows the top ten scores and their corresponding initials. 
 
-If your README is long, add a table of contents to make it easy for users to find what they need.
-
-- [Installation](#installation)
-- [Usage](#usage)
-- [Credits](#credits)
-- [License](#license)
+This project was an excercise in editing the DOM via JavaScript, saving to local storage, controlling the flow of a game, and ensuring the HTML is responsive to a variety of screen sizes.
 
 ## Installation
 
-What are the steps required to install your project? Provide a step-by-step description of how to get the development environment running.
+The Code Quiz is available here:
 
 ## Usage
+1. Press the Start button to begin the quiz
+    1. Alternatively, you c
 
 Provide instructions and examples for use. Include screenshots as needed.
 

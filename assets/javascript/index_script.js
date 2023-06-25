@@ -42,8 +42,9 @@ var timerCount;
 
 
 function startQuiz() {
-    // Remove addlText and startButton
+    // Make the main element left aligned for this view, because the variable question and answer lengths don't look good centered.
     mainEl.css("text-align", "left")
+    // Remove addlText and startButton
     addlTextEl.empty();
     startButtonEl.detach();
     // Append multipleChoiceList and answerEl so we can use them
@@ -116,6 +117,7 @@ function validateAnswer(event) {
 }
 
 function enterInitials() {
+    // Turn off the left text-align style attribute we turned on earlier, revert to the default centered behavior. 
     mainEl.removeAttr("style")
     // Dynamic text to better explain why the quiz ended
     if (!timerCount) {
