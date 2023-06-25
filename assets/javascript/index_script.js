@@ -1,9 +1,16 @@
 var mainEl = $("main")
-var buttonEl = $(".start-button")
-var multipleChoiceList = $(".multiple-choice")
+var startButtonEl = $("<button>")
+mainEl.append(startButtonEl)
+startButtonEl.text("Start")
+var multipleChoiceList = $("<div>")
+mainEl.append(multipleChoiceList)
+var answerEl = $("<div>")
+mainEl.append(answerEl)
 var timerElement = $(".countdown")
 var bigTextEl = $(".big-text")
 var addlTextEl = $(".addl-text")
+var initialInput = $("<input>")
+
 
 // [0] = question, [1] - [length-2] = answers, [length-1] = correct answer
 var questions = [
@@ -16,15 +23,25 @@ var answer;
 
 var timerCount;
 var score;
-var timeTotal = 1;
-var timePenalty = timeTotal/questions.length;
+var timeTotal = 30;
+var timePenalty = Math.ceil(timeTotal/questions.length);
+console.log(timePenalty)
+
+class Highscores {
+    constructor(playerInitials, playerScore) {
+        this.playerInitials = playerInitials
+        this.playerScore = playerScore
+    }
+}
+
+var leaderboard
 
 function startQuiz() {
     // start the timer
     timerCount = timeTotal;
     timerElement.text(timerCount);
     addlTextEl.empty();
-    buttonEl.detach();
+    startButtonEl.detach();
 
     startTimer();
     // get the first question
@@ -41,18 +58,22 @@ function startTimer() {
         console.log(timerCount)        
         }else{
             clearInterval(timer);
+            score = Math.max(0,timerCount);
+            console.log("score "+score);
+            logScore();
         }
     }, 1000)
 }
 
 
 function getQuestion() {
+    // if the player is already out of questions, do nothing. handles an edge case where the player spams thorugh all questions in less than a second, before the timer condition updates.
     if (questions.length > 0) {
         multipleChoiceList.empty();
-        var randomInt = Math.floor(Math.random()*questions.length);
+        var randomInt = Math.floor(Math.random() * questions.length);
         var activeQuestion = questions[randomInt];
-        questions.splice(randomInt,1);
-        answer = activeQuestion[activeQuestion.length-1];
+        questions.splice(randomInt, 1);
+        answer = activeQuestion[activeQuestion.length - 1];
         bigTextEl.text(activeQuestion[0]);
 
         for (var i = 1; i < activeQuestion.length - 1; i++) {
@@ -61,14 +82,15 @@ function getQuestion() {
             optionButton.text(activeQuestion[i])
             multipleChoiceList.append(optionButton)
         }
-    }else{
-        score = Math.max(0,timerCount);
-        console.log("score "+score);
-        logScore();
     }
 }
+
 function logScore(){
-    bigTextEl.text("Record Your Score!")
+    if (!timerCount){
+        bigTextEl.text("You ran out of time!")
+    }else{
+        bigTextEl.text("Record Your Score!")
+    }
     addlTextEl.text("Your score is: " + score)
     mainEl.empty();
     var inputLabel =$("<label>")
@@ -77,9 +99,7 @@ function logScore(){
         for:"initials"
     })
     mainEl.append(inputLabel)
-    var initialInput = $("<input>")
     initialInput.attr({
-        required: true,
         maxlength: 5,
         id: "initials"
     })
@@ -96,7 +116,7 @@ function logScore(){
 
 function validateAnswer(event) {
     if (event.target.innerText === answer) {
-        $(".answer").text("Correct!")
+        answerEl.text("Correct!")
     } else {
         // prevents it from returning decimal amounts of time
         timerCount = Math.floor(timerCount-timePenalty);
@@ -105,19 +125,40 @@ function validateAnswer(event) {
         }else{
             timerElement.text(0);
         }
-        $(".answer").text("Incorrect!")
+        answerEl.text("Incorrect!")
     }
     getQuestion();
 
 }
 
-function loadHighScores(){
+function loadHighScores() {
+    if (initialInput.val()) {
+        highscore = new Highscores(initialInput.val().toUpperCase(), score)
+        console.log("highscore " + highscore)
 
-    console.log ("highscores!")
+        leaderboard = JSON.parse(localStorage.getItem("leaderboard"))
+        if (leaderboard === null) {
+            leaderboard = []
+
+        }
+        leaderboard.push(highscore);
+        leaderboard.sort(function (a, b) {
+            if (a.playerScore > b.playerScore) {
+                return -1
+            } else if (a.playerScore < b.playerScore) {
+                return 1;
+            } return 0;
+        })
+
+        localStorage.setItem("leaderboard", JSON.stringify(leaderboard));
+        window.location.href = "leaderboard.html"
+    } else {
+        return
+    }
 }
 
 mainEl.on("click", "[name = 'submit']", loadHighScores)
 
 multipleChoiceList.on("click", ".option-button", validateAnswer)
 
-buttonEl.on("click", startQuiz);
+startButtonEl.on("click", startQuiz);
