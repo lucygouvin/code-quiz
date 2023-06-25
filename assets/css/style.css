@@ -83,6 +83,9 @@ button{
 .option-button{
     display: block;
     margin-left: 0%;
+    border-radius: 0;
+    text-align: left;
+    width: 100%;
 }
 
 /* Set font size for label */

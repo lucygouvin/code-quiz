@@ -22,19 +22,19 @@ initialInput.attr({
     id: "initials"
 })
 
-// Array of arrays that holds the questions, multiple choice options, and answers
-// [0] = question, [1] - [length-2] = answers, [length-1] = correct answer
+// Array that holds question objects, multiple choice options, and answers
 var questions = [
-    ["Please choose answer a", "a", "b", "c", "d", "a"],
-    ["Please choose answer b", "a", "b", "c", "d", "b"],
-    ["Please choose answer c", "a", "b", "c", "d", "c"],
-    ["Please choose answer d", "a", "b", "c", "d", "d"],
+    {questionString: "Which of the following values are defined as falsy?", answerOptions: ["0", "null", "undefined", "false","''","All of the above"], answerString: "All of the above"},
+    {questionString: "Which type of brackets are used for creating an array?", answerOptions: ["()", "{}", "[]", "<>",], answerString: "[]"},
+    {questionString: "Which is used for selecting a class?", answerOptions: [".", "#", "$", "<>",], answerString: "."},
+    {questionString: "What does CSS stand for?", answerOptions: ["Cool Style Sheets", "Cascading Spread Sheets", "Cascading Style Sheets", "Critical Style Sense"], answerString: "Cascading Style Sheets"},
+    {questionString: "What are {} used for?", answerOptions: ["Declaring an object", "Declaring an array", "Grouping code blocks for things like conditional statements, for loops, or functions ", "Both 1 and 3",], answerString: "Both 1 and 3"}
 ]
 // Stores the correct answer for the active question
 var answer;
 
 // timeTotal declared globally for ease of adjusting
-var timeTotal = 30000;
+var timeTotal = 60;
 // timePenalty is the total time divided by number of questions to guarantee that getting all of them wrong will have a score of 0. Math.ceil used to ensure no fractional seconds
 var timePenalty = Math.ceil(timeTotal / questions.length);
 // timerCount is current remaining time
@@ -85,12 +85,12 @@ function getQuestion() {
         // Remove this question from the list of questions
         questions.splice(randomInt, 1);
         // Store the answer to a global variable so it is accessible to the validateAnswer function
-        answer = activeQuestion[activeQuestion.length - 1];
+        answer = activeQuestion.answerString;
         // Put the question text in the h1 element
-        bigTextEl.text(activeQuestion[0]);
+        bigTextEl.text(activeQuestion.questionString);
         // For each multiple choice option, create a button and append it to the mutlipleChoiceList section
-        for (var i = 1; i < activeQuestion.length - 1; i++) {
-            var optionButton = $("<button>" + activeQuestion[i] + "</button>");
+        for (var i = 0; i < activeQuestion.answerOptions.length; i++) {
+            var optionButton = $("<button>" + activeQuestion.answerOptions[i] + "</button>");
             optionButton.addClass("option-button")
             multipleChoiceList.append(optionButton)
         }
