@@ -11,7 +11,9 @@ mainEl.append(startButtonEl)
 
 // Create elements that will be used during the quiz view, don't append yet
 var multipleChoiceList = $("<div>")
-var answerEl = $("<div>")
+multipleChoiceList.addClass("multiple-choice")     
+var answerEl = $("<p>")
+answerEl.addClass("answer")
 
 // Create element that will be used during the initial entry view, don't append yet
 var initialInput = $("<input>")
@@ -32,7 +34,7 @@ var questions = [
 var answer;
 
 // timeTotal declared globally for ease of adjusting
-var timeTotal = 30;
+var timeTotal = 30000;
 // timePenalty is the total time divided by number of questions to guarantee that getting all of them wrong will have a score of 0. Math.ceil used to ensure no fractional seconds
 var timePenalty = Math.ceil(timeTotal / questions.length);
 // timerCount is current remaining time
@@ -41,6 +43,7 @@ var timerCount;
 
 function startQuiz() {
     // Remove addlText and startButton
+    mainEl.css("text-align", "left")
     addlTextEl.empty();
     startButtonEl.detach();
     // Append multipleChoiceList and answerEl so we can use them
@@ -57,8 +60,6 @@ function startQuiz() {
 
 function startTimer() {
     timer = setInterval(function () {
-        console.log(timerCount)
-        console.log(questions.length)
         // If the player is not out of time, keep counting down every second
         if (timerCount > 0) {
             timerCount--;
@@ -66,7 +67,7 @@ function startTimer() {
         } else {
             // If the player is out of time, stop the timer and move on to logging your initials
             clearInterval(timer);
-            timerEl.text(timerCount);
+            timerEl.text(Math.max(0,timerCount));
             enterInitials();
         }
     }, 1000)
@@ -95,13 +96,12 @@ function getQuestion() {
     }else{
         // If there are no more unanswered questions, clear the timer and move on to logging your initials
         clearInterval(timer);
-        timerEl.text(timerCount);
+        timerEl.text(Math.max(0,timerCount))
         enterInitials();
     }
 }
 
 function validateAnswer(event) {
-    console.log("click")
     // If the text from the event target (the multiple choice button that was clicked) is equal to the current answer
     if (event.target.innerText === answer) {
         answerEl.text("Correct!")
@@ -116,6 +116,7 @@ function validateAnswer(event) {
 }
 
 function enterInitials() {
+    mainEl.removeAttr("style")
     // Dynamic text to better explain why the quiz ended
     if (!timerCount) {
         bigTextEl.text("You ran out of time!")

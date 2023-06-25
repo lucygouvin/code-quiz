@@ -6,6 +6,7 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <!-- Link to CSS -->
+    <link rel="stylesheet" href="../assets/css/reset.css"/>
     <link rel="stylesheet" href="../assets/css/style.css" />
     <title>Code Quiz</title>
 </head>
@@ -29,9 +30,10 @@
         <!-- All views will use text, so these elements are persistent, and I'm instatiating them in the HTML for a better sense of the page structure -->
         <h1 class="big-text">Coding Quiz Challenge</h1>
         <p class="addl-text">Try to answer the following coding questions, but be fast! Your score will be equal to your
-            remaining time.</p>
+            remaining time, and incorrect answers incur a time penalty!</p>
         <!-- Display area will update dynamically depending on what phase of the interaction the player is in. Therefore, these elements are created and appended dynamically in the JavaScript -->
         <div class="display-area"></div>
+            <!-- MC list and answer are in here -->
     </main>
 
     <!-- Link to jQuery and JavaScript files -->

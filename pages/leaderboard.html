@@ -6,6 +6,7 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <!-- Link to CSS -->
+    <link rel="stylesheet" href="../assets/css/reset.css"/>
     <link rel="stylesheet" href="../assets/css/style.css" />
     <title>Leaderboard</title>
 </head>
@@ -19,8 +20,10 @@
         <!-- Actual scores are dynamically generated, so they're created and added in JavaScript -->
         <ol class="score-list"></ol>
         <!-- These buttons are permanent, so they're instantiated in HTML -->
-        <button name="reset">Clear Highscores</button>
-        <button name="return">Go Back</button>
+        <div>
+            <button name="reset">Clear Highscores</button>
+            <button name="return">Go Back</button>
+        </div>
         <!-- Link to jQuery and JavaScript files -->
         <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
         <script src="../assets/javascript/leaderboard_script.js"></script>
