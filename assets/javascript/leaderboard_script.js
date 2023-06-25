@@ -21,5 +21,5 @@ $("button[name = 'reset']").on("click", function () {
 
 // If you click the return button, go back to index
 $("button[name = 'return']").on("click", function () {
-    window.location.href = "index.html"
+    window.location.href = "../index.html"
 })
